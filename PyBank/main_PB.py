@@ -1,18 +1,18 @@
 import os
 import csv
 
-# The total number of months included in the dataset
-# The net total amount of "Profit/Losses" over the entire period
-# Calculate the changes in "Profit/Losses" over the entire period, then find the average of those changes
-# The greatest increase in profits (date and amount) over the entire period
-# The greatest decrease in losses (date and amount) over the entire period
 
 profits = []
 p2p_change = []
 period_data = []
 
+# The total number of months included in the dataset
 total_months = 0
+# The net total amount of "Profit/Losses" over the entire period
 total_profit = 0
+# Calculate the changes in "Profit/Losses" over the entire period, then find the average of those changes
+# The greatest increase in profits (date and amount) over the entire period
+# The greatest decrease in losses (date and amount) over the entire period
 change_profit = 0
 previous_profit = 0
 
@@ -22,17 +22,20 @@ budget_data_path = os.path.join("Resources", "budget_data.csv")
 with open(budget_data_path) as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=",")
     csv_header = next(csv_reader)
-
+    # goes through each row in file: adds months, totals P/L, tracks changes by period
     for row in csv_reader:
+        # month count
         total_months += 1
+        # takes date
         period_data.append(row[0])
+        # ascribes profit for each date
         profits.append(row[0])
         total_profit = total_profit + int(row[1])
         end_profit = int(row[1])
         monthly_PL = end_profit - previous_profit
-        
+        # adds P/L from each month --- current and previous --- to the changes list
         p2p_change.append(monthly_PL)
-
+        # counts changes in P/L then resets the previous month value
         change_profit = change_profit + monthly_PL
         previous_profit = end_profit
         
